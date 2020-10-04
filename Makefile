@@ -1,18 +1,20 @@
 
 vpath %.asm src
+vpath %.inc include
 
 MKDIR   := mkdir -p
 RM      := rm -f
 RMDIR   := rm -rf
 
 AS      := nasm
-ASFLAGS := -W+all -felf64
+ASFLAGS := -W+all -Ox -Iinclude -Pinclude/file-descriptors.inc -Pinclude/system-calls.inc -felf64
 LD      := ld
 LDFLAGS := -O1 -nostdlib --sort-common --as-needed --relax -z relro -z now
 LIBS    :=
 
 SRCS    := $(notdir $(wildcard src/*.asm))
 OBJS    := $(patsubst %.asm,%.o,$(SRCS))
+LSTS    := $(patsubst %.asm,%.l,$(SRCS))
 
 TARGET  := xserver
 
@@ -24,6 +26,11 @@ $(TARGET): $(OBJS)
 %.o: %.asm
 	$(AS) $(ASFLAGS) -o $@ $^
 
+listings: $(LSTS)
+
+%.l: %.asm
+	$(AS) $(ASFLAGS) -l $@ -o $(patsubst %.asm,%.o,$^) $^
+
 .PHONY: clean
 clean:
-	$(RM) $(OBJS) $(TARGET)
+	$(RM) $(OBJS) $(LSTS) $(TARGET)
