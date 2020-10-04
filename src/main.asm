@@ -20,7 +20,8 @@ global _start
         mov rax,0x29 ; socket
         mov rdi,0x02 ; AF_INET      include/linux/socket.h
         mov rsi,0x01 ; SOCK_STREAM  include/linux/net.h
-        mov rdx,0x06 ; TCP          /etc/protocols
+        ;mov rdx,0x06 ; TCP          /etc/protocols
+        mov rdx,0x00
         syscall
 
         ; TODO: Check for error
@@ -30,6 +31,10 @@ global _start
 
         ; TODO: Call bind()
         ;
+        ; int bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen)
+        ;
+        ;
+
 
         ; TODO: Check for error
 
