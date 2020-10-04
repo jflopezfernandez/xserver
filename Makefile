@@ -9,7 +9,7 @@ RMDIR   := rm -rf
 AS      := nasm
 ASFLAGS := -W+all -Ox -Iinclude -Pinclude/file-descriptors.inc -Pinclude/system-calls.inc -felf64 -gdwarf
 LD      := ld
-LDFLAGS := -O1 -nostdlib --sort-common --as-needed --relax -z relro -z now
+LDFLAGS := -O1 -nostdlib --sort-common --as-needed --relax -z relro -z now -T src/linker.ld
 LIBS    :=
 
 SRCS    := $(notdir $(wildcard src/*.asm))
