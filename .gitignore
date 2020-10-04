@@ -1,3 +1,7 @@
+
+# Ignore listing files
+*.lst
+
 # Ignore binary compiler output
 *.o
 xserver

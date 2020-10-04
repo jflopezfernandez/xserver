@@ -1,0 +1,4 @@
+set listsize 100
+alias -a ir = info registers
+set args horse house cat dog person place or thing
+

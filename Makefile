@@ -7,14 +7,15 @@ RM      := rm -f
 RMDIR   := rm -rf
 
 AS      := nasm
-ASFLAGS := -W+all -Ox -Iinclude -Pinclude/file-descriptors.inc -Pinclude/system-calls.inc -felf64 -gdwarf
+ASFLAGS := -W+all -Ov -Iinclude -Pinclude/file-descriptors.inc -Pinclude/system-calls.inc -felf64 -gdwarf
 LD      := ld
+LSTOPTS := -Lb -Ld -Le -Lm -Ls
 LDFLAGS := -O1 -nostdlib --sort-common --as-needed --relax -z relro -z now -T src/linker.ld
 LIBS    :=
 
 SRCS    := $(notdir $(wildcard src/*.asm))
 OBJS    := $(patsubst %.asm,%.o,$(SRCS))
-LSTS    := $(patsubst %.asm,%.l,$(SRCS))
+LSTS    := $(patsubst %.asm,%.lst,$(SRCS))
 
 TARGET  := xserver
 
@@ -28,8 +29,8 @@ $(TARGET): $(OBJS)
 
 listings: $(LSTS)
 
-%.l: %.asm
-	$(AS) $(ASFLAGS) -l $@ -o $(patsubst %.asm,%.o,$^) $^
+%.lst: %.asm
+	$(AS) $(ASFLAGS) -l $@ $(LSOPTS) -o $(patsubst %.asm,%.o,$^) $^
 
 .PHONY: clean
 clean:
