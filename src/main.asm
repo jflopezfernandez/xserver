@@ -89,11 +89,24 @@ _start:
         ;
         push rcx
 
+        ; Calculate the length of the current argument
+        xor r11,r11
+
+    .next_char:
+        mov r8,[rbp+16+8*rcx]
+        mov r9b,[r8 + r11]
+        cmp r9,0x00
+        je .end_of_string
+        inc r11
+        jmp .next_char
+    
+    .end_of_string:
+
         ; Print the command-line argument
         mov rax,0x01
         mov rdi,0x01
         mov rsi,[rbp+16+8*rcx]
-        mov rdx,5
+        mov rdx,r11
         syscall
 
         ; Print a newline character
