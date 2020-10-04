@@ -7,7 +7,7 @@ RM      := rm -f
 RMDIR   := rm -rf
 
 AS      := nasm
-ASFLAGS := -W+all -Ox -Iinclude -Pinclude/file-descriptors.inc -Pinclude/system-calls.inc -felf64
+ASFLAGS := -W+all -Ox -Iinclude -Pinclude/file-descriptors.inc -Pinclude/system-calls.inc -felf64 -gdwarf
 LD      := ld
 LDFLAGS := -O1 -nostdlib --sort-common --as-needed --relax -z relro -z now
 LIBS    :=
